@@ -10,7 +10,10 @@ var userCommand = process.argv[2];
 var userQuery = process.argv[3];
 
 console.log(userCommand);
-console.log(userQuery);
+
+if (process.argv.length < 3){
+    console.log(userQuery);
+}
 
 //determine which query is choisen (Example: concert-this, spotify-this-song, movie-this and do-what-it-says)
 if (userCommand === "concert-this") {
@@ -27,7 +30,7 @@ if (userCommand === "concert-this") {
 
 } else if (userCommand === "do-what-it-says") {
     console.log("do what it says")
-    getMovieInfo(userQuery)
+    doWhatItSays()
 
 } else {
     console.log("none of the previous conditions were met")
@@ -107,3 +110,21 @@ function getMovieInfo(movie) {
 
         })
 };
+
+// node liri.js for do-what-it-says
+
+function doWhatItSays() {
+    console.log("-----------------------------")
+    fs.readFile("random.txt", "utf8", function(error, data) {
+
+        if (error) {
+            return console.log(error);
+        }
+   
+        var dataArray = data.split(",");
+      
+        userQuery = dataArray[1];
+        console.log(userQuery)
+        getSpotifySong(userQuery)
+      });
+}
